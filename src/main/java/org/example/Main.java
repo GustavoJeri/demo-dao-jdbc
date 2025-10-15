@@ -8,15 +8,23 @@ import model.entities.Seller;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class Main {
     static void main() {
 
         SellerDao sellerDao = DaoFactory.createSellerDao();
-        System.out.println("===Find seller by Id===");
+        System.out.println("===TEST 1: Find seller by Id===");
         Seller seller = sellerDao.findById(3);
-
         System.out.println(seller);
+
+        System.out.println("===TEST 2: Find seller by Department===");
+        Department department = new Department(2, null);
+        List<Seller> list =  sellerDao.findByDepartment(department);
+
+        for (Seller obj: list ){
+            System.out.println(obj);
+        }
 
 
     }
