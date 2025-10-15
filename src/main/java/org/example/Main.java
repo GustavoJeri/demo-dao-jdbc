@@ -40,8 +40,17 @@ public class Main {
         System.out.println("===TEST 4:Insert new Seller===");
         Seller newSeller = new Seller(null, "NeymarJr", "neymar@gmail.com", new Date(), 45000.5, department);
         sellerDao.insert(newSeller);
-
         System.out.println("New seller inserted! new id = " + newSeller.getId());
+
+
+        
+        System.out.println();
+        System.out.println("===TEST 5:Update Seller===");
+        seller =  sellerDao.findById(1);
+        seller.setName("Lionel Messi");
+        sellerDao.update(seller);
+        System.out.println("Upadate completed!");
+
 
     }
 }
