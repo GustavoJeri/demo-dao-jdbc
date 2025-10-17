@@ -43,10 +43,10 @@ public class SellerDaoJDBC implements SellerDao {
                 if(rs.next()){
                     int id = rs.getInt(1);
                     obj.setId(id);
-                } else {
-                    throw new DbException("Error to insert new seller");
                 }
                 DB.closeResultSet(rs);
+            }else {
+                throw new DbException("Error to insert new seller");
             }
         }
         catch (SQLException e){
@@ -103,6 +103,9 @@ public class SellerDaoJDBC implements SellerDao {
         }
         catch (SQLException e){
             throw new DbException(e.getMessage());
+        }
+        finally {
+            DB.closeStatement(st);
         }
     }
 
@@ -166,8 +169,14 @@ public class SellerDaoJDBC implements SellerDao {
             List<Seller> list = new ArrayList<>();
             Map<Integer, Department> map = new HashMap<>();
             while(rs.next()){
-                map.putIfAbsent(rs.getInt("DepartmentId"),  instantiateDepartment(rs));
-                Department dep = instantiateDepartment(rs);
+
+               Department dep = map.get(rs.getInt("DepartmentId"));
+
+               if(dep == null){
+                   dep = instantiateDepartment(rs);
+                   map.put(rs.getInt("DepartmentId"), dep);
+               }
+
                 Seller obj =instantiateSeller(rs, dep);
                 list.add(obj);
             }
@@ -199,8 +208,14 @@ public class SellerDaoJDBC implements SellerDao {
             List<Seller> list = new ArrayList<>();
             Map<Integer, Department> map = new HashMap<>();
             while(rs.next()){
-                map.putIfAbsent(rs.getInt("DepartmentId"),  instantiateDepartment(rs));
-                Department dep = instantiateDepartment(rs);
+
+                Department dep = map.get(rs.getInt("departmentId"));
+
+                if (dep == null){
+                    dep = instantiateDepartment(rs);
+                    map.put(rs.getInt("DepartmentId"), dep);
+                }
+
                 Seller obj =instantiateSeller(rs, dep);
                 list.add(obj);
             }

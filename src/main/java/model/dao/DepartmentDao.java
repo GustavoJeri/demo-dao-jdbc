@@ -3,6 +3,8 @@ package model.dao;
 import model.entities.Department;
 import model.entities.Seller;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public interface DepartmentDao {
